@@ -36,7 +36,6 @@ class Graph:
                 self.DFS(neighbor, finish)
 
 
-
 N, M, a, b = map(int, input().split())
 graph = Graph()
 
