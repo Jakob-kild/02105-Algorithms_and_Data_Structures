@@ -1,4 +1,4 @@
-
+#kan faktisk løse både quickunion og quickfind
 class QuickFind:
     def __init__(self, n):
         self.id_arr = list(range(n))

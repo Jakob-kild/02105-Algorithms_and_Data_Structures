@@ -1,23 +1,30 @@
-class UnionFind:
+class WeightedPathCompressedUnionFind:
     def __init__(self, n):
-        self.id = list(range(n))
+        self.parent = list(range(n))
+        self.size = [1] * n
 
     def find(self, i):
-        return self.id[i]
+        if self.parent[i] != i:
+            self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
 
     def union(self, i, j):
-        iID = self.find(i)
-        jID = self.find(j)
+        ri = self.find(i)
+        rj = self.find(j)
 
-        if iID != jID:
-            for k in range(len(self.id)):
-                if self.id[k] == iID:
-                    self.id[k] = jID
+        if ri != rj:
+            if self.size[ri] < self.size[rj]:
+                self.parent[ri] = rj
+                self.size[rj] += self.size[ri]
+            else:
+                self.parent[rj] = ri
+                self.size[ri] += self.size[rj]
 
 
 # Read input
-N, M = map(int, input().split())  # Number of sets and operations
-union_find = UnionFind(N)
+N = int(input())  # Number of sets
+M = int(input())  # Number of Find or Union operations
+union_find = WeightedPathCompressedUnionFind(N)
 
 # Process Find and Union operations
 for _ in range(M):
