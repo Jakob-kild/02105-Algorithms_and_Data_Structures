@@ -27,7 +27,12 @@ class Dijkstras:
                 continue
 
             for neighbor, neighbor_weight in self.graph[current_node]:
-                self.relax(current_node, neighbor, neighbor_weight, min_heap)
+                if current_node > 1:
+                    included_box_weight = neighbor_weight + 5
+                    self.relax(current_node, neighbor, included_box_weight, min_heap)
+                else:
+                    self.relax(current_node, neighbor, neighbor_weight, min_heap)
+
 
         return self.weights[1:]  # Exclude the weight at index 0
 
