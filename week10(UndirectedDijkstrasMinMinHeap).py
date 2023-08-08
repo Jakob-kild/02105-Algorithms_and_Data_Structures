@@ -73,7 +73,7 @@ class Dijkstras:
         self.graph[j].append((i, weight))
 
     def relax(self, u, v, edge_weight, queue):
-        if self.weights[v] > self.weights[u] + edge_weight:
+        if self.weights[v] > self.weights[u] + edge_weight :
             self.weights[v] = self.weights[u] + edge_weight
             queue.decrease_key(v, self.weights[v])
             queue.insert((v, edge_weight))
