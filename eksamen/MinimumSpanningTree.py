@@ -1,52 +1,51 @@
-class Kruskals:
+import heapq
+
+
+class PrimsMST:
     def __init__(self, n):
-        self.N = n
-        self.edges = []
-        self.parent_arr = list(range(n + 1))
+        self.n = n
+        self.graph = [[] for _ in range(n + 1)]
+        self.mst_edges = []
 
-    def add_edge(self, i, j, weight):
-        self.edges.append((i, j, weight))
+    def add_edge(self, b1, b2, price):
+        self.graph[b1].append((b2, price))
+        self.graph[b2].append((b1, price))
 
-    def find_parent(self, i):
-        if self.parent_arr[i] == i:
-            return i
+    def find_minimum_spanning_tree(self):
+        visited = [False] * (self.n + 1)
+        min_heap = [(0, 1, -1)]  # Start with building 1 and initial cost 0, -1 indicates no parent
+        total_cost = 0
 
-        self.parent_arr[i] = self.find_parent(self.parent_arr[i])
-        return self.parent_arr[i]
+        while min_heap:
+            cost, current, parent = heapq.heappop(min_heap)
 
-    def union(self, i, j):
-        parent_i = self.find_parent(i)
-        parent_j = self.find_parent(j)
+            if visited[current]:
+                continue
 
-        if parent_i != parent_j:
-            self.parent_arr[parent_j] = parent_i
+            visited[current] = True
+            total_cost += cost
 
-    def minimum_spanning_tree(self):
-        self.edges.sort(key=lambda x: x[2])  # Sort edges based on price
-        mst = []
-        for edge in self.edges:
-            u, v, weight = edge
-            if self.find_parent(u) != self.find_parent(v):
-                self.union(u, v)
-                mst.append(edge)
+            if parent != -1:
+                self.mst_edges.append((parent, current))
 
-            if len(mst) == self.N - 1:
-                break
+            for neighbor, neighbor_cost in self.graph[current]:
+                if not visited[neighbor]:
+                    heapq.heappush(min_heap, (neighbor_cost, neighbor, current))
 
-        return mst
+        return total_cost
+
+    def print_minimum_spanning_tree(self):
+        print("Minimum Spanning Tree Edges:")
+        for edge in self.mst_edges:
+            print(edge)
 
 N, M = map(int, input().split())
-
-graph = Kruskals(N)
+prim = PrimsMST(N)
 
 for _ in range(M):
-    b_i, b_j, price = map(int, input().split())
-    graph.add_edge(b_i, b_j, price)
+    b1, b2, price = map(int, input().split())
+    prim.add_edge(b1, b2, price)
 
-mst_edges = graph.minimum_spanning_tree()
-
-total_weight = sum(edge[2] for edge in mst_edges)
-print("Minimum Spanning Tree Weight:", total_weight)
-print("Minimum Spanning Tree Edges:")
-for edge in mst_edges:
-    print(edge)
+cheapest_total_price = prim.find_minimum_spanning_tree()
+print("Minimum Spanning Tree Total Cost:", cheapest_total_price)
+prim.print_minimum_spanning_tree()
