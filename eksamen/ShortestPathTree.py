@@ -32,7 +32,7 @@ class DijkstrasMST:
         return self.weights[1:], self.parents[1:]  # Return weights and parents
 
 N, M, source = map(int, input().split())
-
+#the nodes have to be 1-indexed
 graph = DijkstrasMST(N)
 
 for _ in range(M):
