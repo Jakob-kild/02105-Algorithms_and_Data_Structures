@@ -31,7 +31,7 @@ class DijkstrasMST:
 
         return self.weights[1:], self.parents[1:]  # Return weights and parents
 
-N, M = map(int, input().split())
+N, M, source = map(int, input().split())
 
 graph = DijkstrasMST(N)
 
@@ -39,9 +39,9 @@ for _ in range(M):
     b_i, b_j, price = map(int, input().split())
     graph.add_edge(b_i, b_j, price)
 
-weights, parents = graph.minimum_spanning_tree_weight(5)
+weights, parents = graph.minimum_spanning_tree_weight(source)
 print("Minimum Spanning Tree Weights:", " ".join(map(str, weights)))
-print("Parent Nodes for MST:", " ".join(map(str, parents)))
+print("Parent Nodes (plus 1) for MST:", " ".join(map(str, parents)))
 
 
 
