@@ -8,6 +8,9 @@ class PathCompression:
             self.id_arr[i] = self.find(self.id_arr[i])
         return self.id_arr[i]
 
+    def print(self):
+        print(self.id_arr)
+
     def union(self, i, j):
         i_id = self.find(i)
         j_id = self.find(j)
@@ -29,6 +32,7 @@ for _ in range(M):
     command = input().split()
     if command[0] == "F":
         print(Set.find(int(command[1])))
+        Set.print()
     elif command[0] == "U":
         Set.union(int(command[1]), int(command[2]))
     else:
